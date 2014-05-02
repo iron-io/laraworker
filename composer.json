@@ -4,7 +4,7 @@
     "description": "IronWorker installation pack for laravel",
     "keywords": ["laravel","job","delayed_job","iron","iron_worker","background","task"],
     "homepage": "http://github.com/freeman1988/laraworker",
-    "license": "MIT",
+    "license": "BSD 2-Clause License",
     "authors": [
         {
             "name": "Kononov D",
