@@ -5,6 +5,11 @@ $current_path = getcwd() . '/vendor/iron-io/laraworker/';
 $artisan_file_path = getcwd() . '/app/start/artisan.php';
 $workers_dir_path = getcwd() . '/workers';
 
+if (file_exists($command_destination_path . $commands[0]) and file_exists($workers_dir_path)){
+    echo "Already installed!";
+    return;
+}
+
 foreach ($commands as $command) {
     if (!copy($current_path . '/commands/' . $command, $command_destination_path . $command))
         echo "Cannot copy commands!" . PHP_EOL;
