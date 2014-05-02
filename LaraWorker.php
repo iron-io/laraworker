@@ -6,7 +6,7 @@ $artisan_file_path = getcwd() . '/app/start/artisan.php';
 $workers_dir_path = getcwd() . '/workers';
 
 if (file_exists($command_destination_path . $commands[0]) and file_exists($workers_dir_path)){
-    echo "Already installed!" . PHP_EOL;
+    echo "LaraWorker bootstrap already installed!" . PHP_EOL;
     return;
 }
 
