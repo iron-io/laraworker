@@ -5,6 +5,12 @@ $current_path = getcwd() . '/vendor/iron-io/laraworker/';
 $artisan_file_path = getcwd() . '/app/start/artisan.php';
 $workers_dir_path = getcwd() . '/workers';
 
+$install_option = getopt("i:");
+@$install_option = $install_option['i'] === 'true' ? true : false;
+if (!$install_option) 
+    return;
+
+
 if (file_exists($command_destination_path . $commands[0]) and file_exists($workers_dir_path)){
     echo "LaraWorker bootstrap already installed!" . PHP_EOL;
     return;
