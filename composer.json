@@ -1,5 +1,5 @@
 {
-    "name": "freeman1988/laraworker",
+    "name": "iron-io/laraworker",
     "type": "library",
     "description": "IronWorker installation pack for laravel",
     "keywords": ["laravel","job","delayed_job","iron","iron_worker","background","task"],
