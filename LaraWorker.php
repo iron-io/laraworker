@@ -1,7 +1,7 @@
 <?php
 $commands = array('RunWorker.php', 'UploadWorker.php');
 $command_destination_path = getcwd() . '/app/commands/';
-$current_path = getcwd() . '/vendor/lara-worker/';
+$current_path = getcwd() . '/vendor/iron-io/laraworker/';
 $artisan_file_path = getcwd() . '/app/start/artisan.php';
 $workers_dir_path = getcwd() . '/workers';
 
