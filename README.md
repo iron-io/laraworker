@@ -9,9 +9,9 @@ LaraWorker is a helper package that makes integrating your Laravel application w
 
 1. Add the following packages to the requires section of `composer.json`
 
-    "iron-io/iron_mq": "dev-master",
-    "iron-io/iron_worker": "dev-master",
-    "iron-io/laraworker": "dev-master",
+        "iron-io/iron_mq": "dev-master",
+        "iron-io/iron_worker": "dev-master",
+        "iron-io/laraworker": "dev-master",
 
 2. Run `composer update`
 
