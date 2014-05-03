@@ -7,19 +7,19 @@ LaraWorker is a helper package that makes integrating your Laravel application w
 
 ### Installation
 
-1.     Add the following packages to the requires section of `composer.json`
+1. Add the following packages to the requires section of `composer.json`
 
-        "iron-io/iron_mq": "dev-master",
-        "iron-io/iron_worker": "dev-master",
-        "iron-io/laraworker": "dev-master",
+    "iron-io/iron_mq": "dev-master",
+    "iron-io/iron_worker": "dev-master",
+    "iron-io/laraworker": "dev-master",
 
-2.     Run `composer update`
+2. Run `composer update`
 
-3.     Install the IronWorker artisan commands for upload and run
+3. Install the IronWorker artisan commands for upload and run
 
-    `php vendor/iron-io/laraworker/LaraWorker.php -i true`
+`php vendor/iron-io/laraworker/LaraWorker.php -i true`
 
-    This script will also copy worker example `ExampleLaraWorker.php` to the workers directory in the root of your project.
+This script will also copy worker example `ExampleLaraWorker.php` to the workers directory in the root of your project.
 
 ### Uploading Workers
 
