@@ -34,7 +34,7 @@ All workers:
 `php artisan ironworker:upload --worker_name=* --exec_worker_file_name=*`
 
 
-### Queuing
+### Queuing up jobs
 
 From the console
 
