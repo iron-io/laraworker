@@ -29,25 +29,23 @@ This script will also copy worker example `ExampleLaraWorker.php` to the workers
 
 IronWorker is a cloud service that runs your Laravel app and waits for jobs to be queued up. To upload your workers to the Iron.io platform:
 
-A single worker:
+`php artisan ironworker:upload --worker_name=* --exec_worker_file_name=*`
+
+Or upload a single worker:
 
 `php artisan ironworker:upload --worker_name=ExampleLaraWorker --exec_worker_file_name=ExampleLaraWorker.php`
-
-All workers:
-
-`php artisan ironworker:upload --worker_name=* --exec_worker_file_name=*`
 
 
 ### Queuing up jobs
 
 From the console
 
-`php artisan ironworker:run --queue_name=ExampleWorker`
+`php artisan ironworker:run --queue_name=ExampleLaraWorker`
 
 
 From inside your laravel application
 
-`Queue::pushRaw("This is Hello World payload :)", 'ExampleWorker'));`
+`Queue::pushRaw("This is Hello World payload :)", 'ExampleLaraWorker'));`
 
 
 #### License
