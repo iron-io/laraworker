@@ -17,33 +17,35 @@ LaraWorker is a helper package that makes integrating your Laravel application w
 
 3. Set Iron.io credentials in app/config/queue.php and set default to iron --> `'default' => 'iron',`
 
-To get your [Iron.io](http://www.iron.io) credentials, signup for a free account at [Iron.io](http://www.iron.io).
+    To get your [Iron.io](http://www.iron.io) credentials, signup for a free account at [Iron.io](http://www.iron.io).
 
 4. Install the IronWorker artisan commands for upload and run
 
-`php vendor/iron-io/laraworker/LaraWorker.php -i true`
+    `php vendor/iron-io/laraworker/LaraWorker.php -i true`
 
-This script will also copy worker example `ExampleLaraWorker.php` to the workers directory in the root of your project.
+    This script will also copy worker example `ExampleLaraWorker.php` to the workers directory in the root of your project.
 
 ### Uploading Workers
 
-IronWorker is a cloud service that runs your Laravel app and waits for jobs to be queued up. To upload your workers to the Iron.io platform:
+IronWorker is a cloud service that runs your Laravel app and waits for jobs to be queued up.
+
+To upload all workers:
 
 `php artisan ironworker:upload --worker_name=* --exec_worker_file_name=*`
 
-Or upload a single worker:
+To upload a single worker:
 
 `php artisan ironworker:upload --worker_name=ExampleLaraWorker --exec_worker_file_name=ExampleLaraWorker.php`
 
 
 ### Queuing up jobs
 
-From the console
+From the console:
 
 `php artisan ironworker:run --queue_name=ExampleLaraWorker`
 
 
-From inside your laravel application
+From inside your laravel application, insert this code into your app:
 
 `Queue::pushRaw("This is Hello World payload :)", 'ExampleLaraWorker'));`
 
