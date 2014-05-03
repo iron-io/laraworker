@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/../bootstrap/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/start.php';
+require __DIR__ . '/../../bootstrap/autoload.php';
+$app = require_once __DIR__ . '/../../bootstrap/start.php';
 use Illuminate\Encryption\Encrypter;
 
 $app->setRequestForConsoleEnvironment();
