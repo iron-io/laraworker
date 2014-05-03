@@ -1,0 +1,28 @@
+{
+    "name": "iron-io/laraworker",
+    "type": "library",
+    "description": "IronWorker installation pack for laravel",
+    "keywords": ["laravel","job","delayed_job","iron","iron_worker","background","task"],
+    "homepage": "http://github.com/freeman1988/laraworker",
+    "license": "BSD 2-Clause License",
+    "authors": [
+        {
+            "name": "Kononov D",
+            "email": "dmitriy@iron.io",
+            "homepage": "http://iron.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "files": ["LaraWorker.php"]
+    },
+    "repositories":[
+        {
+            "type":"git",
+            "url":"http://github.com/freeman1988/laraworker"
+        }
+    ]
+}
