@@ -31,7 +31,7 @@ IronWorker is a cloud service that runs your Laravel app and waits for jobs to b
 
 A single worker:
 
-`php artisan ironworker:upload --worker_name=ExampleWorker --exec_worker_file_name=ExampleWorker.php` 
+`php artisan ironworker:upload --worker_name=ExampleLaraWorker --exec_worker_file_name=ExampleLaraWorker.php`
 
 All workers:
 
