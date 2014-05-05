@@ -1,5 +1,7 @@
+<p align="center">
+<img align="center" src="../master/images/laraworker.png" alt="laraworker">
+</p>
 
-###  LaraWorker
 
 LaraWorker is a helper package that makes integrating your Laravel application with Iron.io's IronWorker very easy!
 
