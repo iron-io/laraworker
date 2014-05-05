@@ -18,9 +18,8 @@ class RunWorker extends Command
     public function fire()
     {
         $queue_name = $this->option('queue_name');
-        $this->info(Queue::pushRaw(
-            "This is Hello World payload :)",
-            $queue_name));
+	Queue::pushRaw("This is Hello World payload :)",$queue_name);
+        $this->info("<info>Message pushed to the <comment>$queue_name</comment> queue.</info>");
     }
 
     protected function getOptions()
