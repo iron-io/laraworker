@@ -26,6 +26,7 @@ foreach ($commands as $command) {
 
 recurse_copy($current_path . '/workers', $workers_dir_path);
 
+echo "LaraWorker package installed." . PHP_EOL;
 
 
 function remove_extension($filename)

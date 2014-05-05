@@ -1,9 +1,9 @@
 {
     "name": "iron-io/laraworker",
     "type": "library",
-    "description": "IronWorker installation pack for laravel",
+    "description": "LaraWorker is a helper package that makes integrating your Laravel application with Iron.io's IronWorker very easy!",
     "keywords": ["laravel","job","delayed_job","iron","iron_worker","background","task"],
-    "homepage": "http://github.com/freeman1988/laraworker",
+    "homepage": "http://github.com/iron-io/laraworker",
     "license": "BSD 2-Clause License",
     "authors": [
         {
@@ -22,7 +22,7 @@
     "repositories":[
         {
             "type":"git",
-            "url":"http://github.com/freeman1988/laraworker"
+            "url":"http://github.com/iron-io/laraworker"
         }
     ]
 }
