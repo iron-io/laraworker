@@ -61,6 +61,8 @@ class UploadWorker extends Command
         $token = Config::get('queue.connections.iron.token', 'xxx');
         $project_id = Config::get('queue.connections.iron.project', 'xxx');
         $this->worker_params = Config::get('ironworker.params', null);
+        if ($this->option('max_concurrency'))
+            $this->worker_params['max_concurrency'] = $this->option('max_concurrency');
 
         $this->worker = new \IronWorker(array(
             'token' => $token,
@@ -234,6 +236,7 @@ class UploadWorker extends Command
             array('worker_name', null, InputOption::VALUE_REQUIRED, 'Worker name.', null),
             array('exec_worker_file_name', null, InputOption::VALUE_REQUIRED, 'Execute worker file name.', null),
             array('push_queue_type', null, InputOption::VALUE_OPTIONAL, 'Type of the push queue.', null),
+            array('max_concurrency', null, InputOption::VALUE_OPTIONAL, 'Max concurrency.', null),
         );
     }
 
