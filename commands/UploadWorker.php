@@ -60,7 +60,7 @@ class UploadWorker extends Command
     {
         $token = Config::get('queue.connections.iron.token', 'xxx');
         $project_id = Config::get('queue.connections.iron.project', 'xxx');
-	$this->worker_params = Config::get('ironworker.params', null);
+        $this->worker_params = Config::get('ironworker.params', null);
 
         $this->worker = new \IronWorker(array(
             'token' => $token,

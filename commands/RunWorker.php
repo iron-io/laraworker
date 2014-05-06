@@ -3,6 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Encryption\Encrypter;
 
 class RunWorker extends Command
 {
@@ -19,15 +20,15 @@ class RunWorker extends Command
     {
         $queue_name = $this->option('queue_name');
 
-        //Post message via IronMQ lib - https://github.com/iron-io/iron_mq_php
+//        //Post message via IronMQ lib - https://github.com/iron-io/iron_mq_php
 //        $mq = new \IronMQ(array(
 //            'token' => Config::get('queue.connections.iron.token', 'xxx'),
 //            'project_id' => Config::get('queue.connections.iron.project', 'xxx')
 //        ));
-	//Every payload must be crypted, worker will decrypt it.
+//	    //Every payload must be crypted, worker will decrypt it.
 //        $mq->postMessages($queue_name, array(
-//                $this->cryptPayload("This is Hello World payload_1 :)"),
-//                $this->cryptPayload("This is Hello World payload_2")
+//                $this->encryptPayload("This is Hello World payload_1"),
+//                $this->encryptPayload("This is Hello World payload_2")
 //            )
 //        );
 
@@ -43,4 +44,11 @@ class RunWorker extends Command
         );
     }
 
+    protected function encryptPayload($payload)
+    {
+        $crypt = new Encrypter(Config::get('app.key'));
+        return $crypt->encrypt($payload);
+    }
+
 }
+

@@ -51,6 +51,26 @@ From inside your laravel application, insert this code into your app:
 
 `Queue::pushRaw("This is Hello World payload :)", 'ExampleLaraWorker'));`
 
+To access the functionality of [IronMQ PHP lib](https://github.com/iron-io/iron_mq_php) use IronMq class instead of Laravel Queue
+
+```
+use Illuminate\Encryption\Encrypter;
+....
+
+$crypt = new Encrypter(Config::get('app.key'));
+
+$ironmq = new \IronMQ(array(
+    'token' => Config::get('queue.connections.iron.token', 'xxx'),
+    'project_id' => Config::get('queue.connections.iron.project', 'xxx')
+)); 
+$ironmq->postMessages($queue_name, array(
+        return $crypt->encrypt("This is Hello World payload_1"),
+        return $crypt->encrypt("This is Hello World payload_2")
+    )
+);
+
+```
+
 
 #### License
 
