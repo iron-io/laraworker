@@ -18,6 +18,7 @@ class UploadWorker extends Command
     protected $workers;
     protected $upload_all;
     protected $workers_dir = 'workers';
+    protected $worker_params;
 
     public function __construct()
     {
@@ -59,6 +60,7 @@ class UploadWorker extends Command
     {
         $token = Config::get('queue.connections.iron.token', 'xxx');
         $project_id = Config::get('queue.connections.iron.project', 'xxx');
+	$this->worker_params = Config::get('ironworker.params', null);
 
         $this->worker = new \IronWorker(array(
             'token' => $token,
@@ -176,7 +178,7 @@ class UploadWorker extends Command
     protected function upload_worker($worker_name, $worker_file_name)
     {
         $this->info("<info>Starting to upload <comment>$worker_name</comment> worker</info>");
-        @$this->worker->upload(getcwd(), $this->workers_dir . '/' . $worker_file_name, $worker_name, array("stack" => 'php-5.4'));
+        @$this->worker->upload(getcwd(), $this->workers_dir . '/' . $worker_file_name, $worker_name, $this->worker_params);
         $this->info("<info>Worker <comment>$worker_name</comment> uploaded</info>" . PHP_EOL);
     }
 

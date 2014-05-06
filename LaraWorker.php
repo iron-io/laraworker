@@ -1,29 +1,28 @@
 <?php
 $commands = array('RunWorker.php', 'UploadWorker.php');
-$command_destination_path = getcwd() . '/app/commands/';
+$command_destination_path = getcwd() . '/app/commands';
+$config_destination_path = getcwd() . '/app/config';
 $current_path = getcwd() . '/vendor/iron-io/laraworker/';
 $artisan_file_path = getcwd() . '/app/start/artisan.php';
 $workers_dir_path = getcwd() . '/workers';
 
 $install_option = getopt("i:");
 @$install_option = $install_option['i'] === 'true' ? true : false;
-if (!$install_option) 
+if (!$install_option)
     return;
 
-
-if (file_exists($command_destination_path . $commands[0]) and file_exists($workers_dir_path)){
-    echo "LaraWorker bootstrap already installed!" . PHP_EOL;
-    return;
-}
-
+//register commands
 foreach ($commands as $command) {
-    if (!copy($current_path . '/commands/' . $command, $command_destination_path . $command))
-        echo "Cannot copy commands!" . PHP_EOL;
+    $register_command_text = "Artisan::add(new " . remove_extension($command) . ");";
+    if (!is_command_registered($artisan_file_path, $register_command_text))
+        file_put_contents($artisan_file_path, "\r\n" . $register_command_text, FILE_APPEND);
 
-    $register_command_text = "\r\nArtisan::add(new " . remove_extension($command) . ");";
-    file_put_contents($artisan_file_path, $register_command_text, FILE_APPEND);
 }
-
+//copy config
+recurse_copy($current_path . '/config', $config_destination_path);
+//copy commands
+recurse_copy($current_path . '/commands', $command_destination_path);
+//copy example worker with worker_boot
 recurse_copy($current_path . '/workers', $workers_dir_path);
 
 echo "LaraWorker package installed." . PHP_EOL;
@@ -49,3 +48,15 @@ function recurse_copy($src, $dst)
     }
     closedir($dir);
 }
+
+function is_command_registered($artisan_file_path, $register_command_text)
+{
+    $artisan_file = file_get_contents($artisan_file_path);
+    $pattern = preg_quote($register_command_text, '/');
+    $pattern = "/^.*$pattern.*\$/m";
+    if (preg_match_all($pattern, $artisan_file, $matches))
+        return true;
+    else
+        return false;
+}
+

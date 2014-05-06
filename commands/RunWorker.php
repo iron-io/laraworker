@@ -18,7 +18,21 @@ class RunWorker extends Command
     public function fire()
     {
         $queue_name = $this->option('queue_name');
-	Queue::pushRaw("This is Hello World payload :)",$queue_name);
+
+        //Post message via IronMQ lib - https://github.com/iron-io/iron_mq_php
+//        $mq = new \IronMQ(array(
+//            'token' => Config::get('queue.connections.iron.token', 'xxx'),
+//            'project_id' => Config::get('queue.connections.iron.project', 'xxx')
+//        ));
+	//Every payload must be crypted, worker will decrypt it.
+//        $mq->postMessages($queue_name, array(
+//                $this->cryptPayload("This is Hello World payload_1 :)"),
+//                $this->cryptPayload("This is Hello World payload_2")
+//            )
+//        );
+
+        //Post message via Laravel Queue class
+        Queue::pushRaw("This is Hello World payload :)", $queue_name);
         $this->info("<info>Message pushed to the <comment>$queue_name</comment> queue.</info>");
     }
 
