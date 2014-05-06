@@ -19,6 +19,9 @@ foreach ($commands as $command) {
 
 }
 //copy config
+if (!file_exists($config_destination_path . '/ironworker.php'))
+    recurse_copy($current_path . '/config', $config_destination_path);
+
 recurse_copy($current_path . '/config', $config_destination_path);
 //copy commands
 recurse_copy($current_path . '/commands', $command_destination_path);
