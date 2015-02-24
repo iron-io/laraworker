@@ -9,7 +9,7 @@ LaraWorker is a helper package that makes integrating your Laravel application w
 
 ### Installation
 
-1. Run `composer require iron-io/iron_mq iron-io/iron_worker iron-io/laraworker`.
+1. Run `composer require iron-io/laraworker`.
 
 2. Set Iron.io credentials in app/config/queue.php and set default to iron --> `'default' => 'iron',`
 
