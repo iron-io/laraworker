@@ -42,14 +42,14 @@ class UploadWorker extends Command
                 $iron_worker_name = $this->remove_extension($worker_file_name);
                 $this->subscriber_url = "ironworker:///" . $iron_worker_name;
                 $this->upload_worker($iron_worker_name, $worker_file_name);
-                if ($this->need_to_update_queue($iron_worker_name)) {
+                if ($this->update_queue === true && $this->need_to_update_queue($iron_worker_name)) {
                     $this->update_queue($iron, $iron_worker_name);
                 }
             }
             $this->show_workers_queues_list($this->workers);
         } else {
             $this->upload_worker($this->iron_worker_name, $this->worker_file_name);
-            if ($this->need_to_update_queue($this->iron_worker_name)) {
+            if ($this->update_queue === true && $this->need_to_update_queue($this->iron_worker_name)) {
                 $this->update_queue($iron, $this->iron_worker_name);
             }
         }
@@ -81,6 +81,8 @@ class UploadWorker extends Command
             $this->worker_file_name = $this->option('exec_worker_file_name');
             $this->subscriber_url = "ironworker:///" . $this->iron_worker_name;
         }
+        
+        $this->update_queue = $this->option('update_queue');
     }
 
 
@@ -237,6 +239,7 @@ class UploadWorker extends Command
             array('exec_worker_file_name', null, InputOption::VALUE_REQUIRED, 'Execute worker file name.', null),
             array('push_queue_type', null, InputOption::VALUE_OPTIONAL, 'Type of the push queue.', null),
             array('max_concurrency', null, InputOption::VALUE_OPTIONAL, 'Max concurrency.', null),
+            array('update_queue', true, InputOption::VALUE_OPTIONAL, 'Update the queue', null),
         );
     }
 
