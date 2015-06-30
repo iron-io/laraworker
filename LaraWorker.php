@@ -1,9 +1,7 @@
 <?php
-$commands = array('RunWorker.php', 'UploadWorker.php');
-$command_destination_path = getcwd() . '/app/commands';
-$config_destination_path = getcwd() . '/app/config';
+$version = get_laravel_version();
+
 $current_path = getcwd() . '/vendor/iron-io/laraworker/';
-$artisan_file_path = getcwd() . '/app/start/artisan.php';
 $workers_dir_path = getcwd() . '/workers';
 
 $install_option = getopt("i:");
@@ -11,13 +9,38 @@ $install_option = getopt("i:");
 if (!$install_option)
     return;
 
-//register commands
-foreach ($commands as $command) {
-    $register_command_text = "Artisan::add(new " . remove_extension($command) . ");";
-    if (!is_command_registered($artisan_file_path, $register_command_text))
-        file_put_contents($artisan_file_path, "\r\n" . $register_command_text, FILE_APPEND);
+if ($version == 4){
+    $command_destination_path = getcwd() . '/app/commands';
+    $config_destination_path = getcwd() . '/app/config';
+    $artisan_file_path = getcwd() . '/app/start/artisan.php';
+    $commands = array('RunWorker.php', 'UploadWorker.php');
 
+    //register commands
+    foreach ($commands as $command) {
+        $register_command_text = "Artisan::add(new " . remove_extension($command) . ");";
+        if (!is_command_registered($artisan_file_path, $register_command_text))
+            file_put_contents($artisan_file_path, "\r\n" . $register_command_text, FILE_APPEND);
+    }
+} elseif ($version == 5){
+    $command_destination_path = getcwd() . '/app/Console/Commands';
+    $config_destination_path = getcwd() . '/config';
+    $artisan_file_path = getcwd() . '/app/Console/Kernel.php';
+    $commands = array('App\Console\Commands\RunWorker', 'App\Console\Commands\UploadWorker');
+
+    $register_command_text = "";
+    foreach ($commands as $command) {
+        $register_command_text .=  "'" . $command . "',\n";
+    }
+    insert_to_file($artisan_file_path, "protected \$commands", $register_command_text);
+    insert_to_file($current_path.'commands/UploadWorker.php', "<?php", "namespace App\Console\Commands;\nuse Config;\n");
+    insert_to_file($current_path.'commands/RunWorker.php', "<?php", "namespace App\Console\Commands;\nuse Queue;\n");
+    replace_in_file(getcwd().'/vendor/laravel/framework/src/Illuminate/Queue/Connectors/IronConnector.php', 'IronMQ\IronMQ', 'IronMQ');
+    replace_in_file(getcwd().'/vendor/laravel/framework/src/Illuminate/Queue/IronQueue.php', 'IronMQ\IronMQ', 'IronMQ');
+} else {
+    echo "Error: unrecognized version of Laravel";
+    return;
 }
+
 //copy config
 if (!file_exists($config_destination_path . '/ironworker.php'))
     recurse_copy($current_path . '/config', $config_destination_path);
@@ -63,3 +86,33 @@ function is_command_registered($artisan_file_path, $register_command_text)
         return false;
 }
 
+function get_laravel_version()
+{
+    $version = shell_exec("php artisan --version | grep -E 'ersion[ ]{1,9}' | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'");
+    $version_arr = explode(".", $version);
+    return intval($version_arr[0]);
+}
+
+function insert_to_file($filename, $after_line, $text)
+{
+    if(is_command_registered($filename,$text))
+    {
+        return;
+    }
+    $st = "";
+    $fp = fopen($filename, "r+");
+    while($buf = fgets($fp)){
+        $st .= $buf;
+        if(strpos($buf, $after_line) > -1) {
+            $st .= $text;
+        }
+    }
+    file_put_contents($filename, $st);
+}
+
+function replace_in_file($file, $from, $to)
+{
+    $content = file_get_contents($file);
+    $res = str_replace($from, $to, $content);
+    file_put_contents($file, $res);
+}
