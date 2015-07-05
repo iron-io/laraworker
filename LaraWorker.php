@@ -26,6 +26,7 @@ if ($version == 4){
     $config_destination_path = getcwd() . '/config';
     $artisan_file_path = getcwd() . '/app/Console/Kernel.php';
     $commands = array('App\Console\Commands\RunWorker', 'App\Console\Commands\UploadWorker');
+    $worker_boot_path = $current_path . '/workers/libs/worker_boot.php';
 
     $register_command_text = "";
     foreach ($commands as $command) {
@@ -36,6 +37,11 @@ if ($version == 4){
     insert_to_file($current_path.'commands/RunWorker.php', "<?php", "namespace App\Console\Commands;\nuse Queue;\n");
     replace_in_file(getcwd().'/vendor/laravel/framework/src/Illuminate/Queue/Connectors/IronConnector.php', 'IronMQ\IronMQ', 'IronMQ');
     replace_in_file(getcwd().'/vendor/laravel/framework/src/Illuminate/Queue/IronQueue.php', 'IronMQ\IronMQ', 'IronMQ');
+
+    replace_in_file($worker_boot_path,'start.php','app.php');
+    replace_in_file($worker_boot_path,'$app->setRequestForConsoleEnvironment();','');
+    replace_in_file($worker_boot_path,'$app->boot()','$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap()');
+    replace_in_file($worker_boot_path,'Config::get(\'app.key\')','config(\'app.key\'), config(\'app.cipher\')');
 } else {
     echo "Error: unrecognized version of Laravel";
     return;
@@ -88,8 +94,9 @@ function is_command_registered($artisan_file_path, $register_command_text)
 
 function get_laravel_version()
 {
-    $version = shell_exec("php artisan --version | grep -E 'ersion[ ]{1,9}' | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'");
-    $version_arr = explode(".", $version);
+    $composer_content = file_get_contents('composer.json');
+    $content_arr = json_decode($composer_content, true);
+    $version_arr = $content_arr["require"]["laravel/framework"];
     return intval($version_arr[0]);
 }
 
